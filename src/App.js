@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import ImageList from './components/ImageList';
+import UploadImage from './components/UploadImage';
+import { PrivateRoute } from './components/PrivateRoute';
+import S3Credentials from './components/S3Credentials';
+import { Provider } from './context/Provider';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider>
+      <div>
+        <Routes>
+          <Route path="login" element={<S3Credentials />} />
+          <Route path="/" element={
+            <PrivateRoute>
+              <UploadImage />
+              <ImageList />
+            </PrivateRoute>
+          } />
+        </Routes>
+      </div>
+    </Provider>
   );
 }
 
